@@ -37,10 +37,10 @@ Firstly, I have created a socket, and then Binded it (i.e assigned an IP and POR
 socket passive using the listen function, marking it passive enables the socket to accept connections. Then I have accepted connections from the clients.
 (Here the request for conncetion is analogous to a user joining the chatroom) 
 I have implemented the synchronisation (Use of Mutex) to handle differenct clients which in case are the users of the chat room, I have used lock_guard method as
-the mutex wrapper. There are also various Utility functions for various purposes (like assigning colors, sending and receiving messages).
+the mutex wrapper. There are also various Utility functions for various purposes (like assigning colors, handling clients).
 
 ### Client Side Implementation Details
-
+This side has the send and receive message functionality, which can be used after a user has established connection with the server, any message sent and received will be displayed by the server.
 
 ## Learnings from the Project
 Following are the things that I have learned during the course of the Project:
