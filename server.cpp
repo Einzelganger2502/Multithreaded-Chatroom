@@ -22,11 +22,16 @@ struct Terminal{
 	thread th;
 };
 
+
+
 vector<Terminal> CLIENTS;
-string def_col="\033[0m";
+string DEFAULT_COL="\033[0m";
 string colors[]={"\033[31m", "\033[32m", "\033[33m", "\033[34m", "\033[35m","\033[36m"};
 int seed=0;
 mutex COUT_MTX,CLIENTS_MTX;
+
+
+//Some Utitily Functions
 
 // Set Name of client
 void set_name(int ID, char Name[]){
@@ -76,6 +81,10 @@ void end_connection(int ID){
 		}
 	}				
 }
+string color(int code){
+	//Colors will be assigned int cyclic order of joining 
+	return colors[code%MAX_COLORS];
+}
 //Utility Function for handling individua CLIENTS
 void handle_client(int client_socket, int ID){
 	char Name[MAX_LEN],str[MAX_LEN];
@@ -83,36 +92,33 @@ void handle_client(int client_socket, int ID){
 	set_name(ID,Name);	
 
 	// Display welcome message
-	string welcome_message=string(Name)+string(" has joined");
+	string welcome_message=string(Name)+string(" has joined!!");
 	send_message("#NULL",ID);	
 	send_message(ID,ID);								
 	send_message(welcome_message,ID);	
-	shared_print(color(ID)+welcome_message+def_col);
+	shared_print(color(ID)+welcome_message+DEFAULT_COL);
 	
 	while(true){
 		int bytes_received=recv(client_socket,str,sizeof(str),0);
 		if(bytes_received<=0)
 			return;
-		if(strcmp(str,"#exit")==0){
+		if(strcmp(str,"$exit")==0){
 			// Display leaving message
-			string message=string(Name)+string(" has left");		
+			string message=string(Name)+string(" has left :(");		
 			send_message("#NULL",ID);			
 			send_message(ID,ID);						
 			send_message(message,ID);
-			shared_print(color(ID)+message+def_col);
+			shared_print(color(ID)+message+DEFAULT_COL);
 			end_connection(ID);							
 			return;
 		}
 		send_message(string(Name),ID);					
 		send_message(ID,ID);		
 		send_message(string(str),ID);
-		shared_print(color(ID)+Name+" : "+def_col+str);		
+		shared_print(color(ID)+Name+" : "+DEFAULT_COL+str);		
 	}	
 }
-string color(int code){
-	//Colors will be assigned int cyclic order of joining 
-	return colors[code%MAX_COLORS];
-}
+
 
 int main(){
 	int server_socket;
@@ -152,7 +158,7 @@ int main(){
 
 	cout<<colors[MAX_COLORS-1]<<"\n\t";
 	cout<<"          Welcome to the CHATROOM         "<<endl;
-	cout<<def_col;
+	cout<<DEFAULT_COL;
 
 	while(1){
 		if((client_socket=accept(server_socket,(struct sockaddr *)&client,&len))==-1){
@@ -168,8 +174,10 @@ int main(){
 	}
 
 	for(int i=0; i<CLIENTS.size(); i++){
-		if(CLIENTS[i].th.joinable())
+		//Check if the current client is Joinable (From the client side)
+		if(CLIENTS[i].th.joinable()){
 			CLIENTS[i].th.join();
+		}
 	}
 	//Closing the server
 	close(server_socket);
