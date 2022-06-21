@@ -28,6 +28,19 @@ $ ./client
 ```
 5. For having Multiple clients you can perform Step-4 multiple times.
 ## Internal Working of the Project
+The implementation portion is divided into 2 parts:
+1. Server Side
+2. Client Side
+
+### Server Side Implementation Details
+Firstly, I have created a socket, and then Binded it (i.e assigned an IP and PORT to the socket which is necessary for connection), after that I have marked the 
+socket passive using the listen function, marking it passive enables the socket to accept connections. Then I have accepted connections from the clients.
+(Here the request for conncetion is analogous to a user joining the chatroom) 
+I have implemented the synchronisation (Use of Mutex) to handle differenct clients which in case are the users of the chat room, I have used lock_guard method as
+the mutex wrapper. There are also various Utility functions for various purposes (like assigning colors, sending and receiving messages).
+
+### Client Side Implementation Details
+
 
 ## Learnings from the Project
 Following are the things that I have learned during the course of the Project:
