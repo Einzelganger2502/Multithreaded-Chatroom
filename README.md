@@ -1,4 +1,4 @@
-# Mutithreaded-Chatroom
+# Multithreaded-Chatroom
 
 ## Project-Description
 
