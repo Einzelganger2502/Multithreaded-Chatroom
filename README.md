@@ -50,6 +50,7 @@ and features available for a current user. There is and option to leave the chat
 ### Client Side Implementation Details
 This side has the send and receive message functionality (i.e `send_message` and `recv_message` respectively), which can be used after a user has established connection with the server, any message sent and received will be displayed by the server.I have also implemented a handler for `CTRL+C` which can be used as an 
 alternative to leave the chatroom.
+There are 2 threads `t1` and `t2` each for sending message and recceiving so that each user can send and receive message indpendent of other users receiving or sending. This is where threading comes in to play.
 
 ## Learnings from the Project
 Following are the things that I have learned during the course of the Project:
