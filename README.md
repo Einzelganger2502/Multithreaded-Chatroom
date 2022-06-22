@@ -33,11 +33,19 @@ The implementation portion is divided into 2 parts:
 2. Client Side
 
 ### Server Side Implementation Details
-Firstly, I have created a socket, and then Binded it (i.e assigned an IP and PORT to the socket which is necessary for connection), after that I have marked the 
-socket passive using the listen function, marking it passive enables the socket to accept connections. Then I have accepted connections from the clients.
+Firstly, I have created a socket using `socket` function, and then Binded it (i.e assigned an IP and PORT to the socket which is necessary for connection) using the
+`bind` function, at each step I am taking care of the errors and I am displaying an error message if any of the error arises, after that I have marked the socket passive using the `listen` function, marking it passive enables the socket to accept connections. Then I have accepted connections from the clients.
 (Here the request for conncetion is analogous to a user joining the chatroom) 
-I have implemented the synchronisation (Use of Mutex) to handle differenct clients which in case are the users of the chat room, I have used lock_guard method as
+I have implemented the synchronisation (Use of Mutex) to handle differenct clients which in case are the users of the chat room, I have used `lock_guard` method as
 the mutex wrapper. There are also various Utility functions for various purposes (like assigning colors, handling clients).
+### Implementation Details of Some Utility Functions 
+`send_message` function has two overloaded functions, one of them is used to broadcast a message to all the users except the sender which is taken care of by
+using the `sender ID` which is a unique ID assigned to each user, the other function of the same name is used to broadcast a number.
+`set_name` function is used to assign name to a user with ID given as the parameter. `shared_print` function is used to synchronize cout statments in case there is 
+a scope for deadlock among users while messaging.
+`end_connection` function is called when a user leaves the chat, this function closes the connection for that particular user. `handle_client` is the main function
+which is used to handle a particular client, it displays the welcome message, assigns color using the `color` function and takes care of all the functionalities 
+and features available for a current user. There is and option to leave the chatroom by typing the message `$exit`.
 
 ### Client Side Implementation Details
 This side has the send and receive message functionality, which can be used after a user has established connection with the server, any message sent and received will be displayed by the server.
