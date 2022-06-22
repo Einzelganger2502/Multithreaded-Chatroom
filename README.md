@@ -48,7 +48,8 @@ which is used to handle a particular client, it displays the welcome message, as
 and features available for a current user. There is and option to leave the chatroom by typing the message `$exit`.
 
 ### Client Side Implementation Details
-This side has the send and receive message functionality, which can be used after a user has established connection with the server, any message sent and received will be displayed by the server.
+This side has the send and receive message functionality (i.e `send_message` and `recv_message` respectively), which can be used after a user has established connection with the server, any message sent and received will be displayed by the server.I have also implemented a handler for `CTRL+C` which can be used as an 
+alternative to leave the chatroom.
 
 ## Learnings from the Project
 Following are the things that I have learned during the course of the Project:
